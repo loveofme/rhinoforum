@@ -12,5 +12,31 @@ class PostRouteTest extends TestCase
 {
     use DatabaseMigrations;
 
-    // TODO: 針對 API route 撰寫測試
+    public function test_example()
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_todo()
+    {
+        $response = $this->get('/api/posts?content=TODO');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_page()
+    {
+        $response = $this->get('/api/posts?page=3&limit=5');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user()
+    {
+        $response = $this->get('/api/posts?user=2&page=3&limit=5');
+
+        $response->assertStatus(200);
+    }
 }

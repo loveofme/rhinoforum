@@ -15,8 +15,12 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('/posts', [PostController::class, 'getPosts']);
+
+// Route::group(['prefix' => 'posts'], function() {
+//     Route::get('user/{id}', 'PostController@getPosts');
+// });
