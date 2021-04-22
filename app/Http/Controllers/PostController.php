@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 use App\Models\Post;
 use Illuminate\Validation\ValidationExceptione;
 
@@ -10,28 +11,23 @@ class PostController extends Controller
 {
     public function getPosts(Request $request)
     {
-        // try {
-        //     $rules = [
-        //         'user' => 'integer',
-        //         'limit' => 'integer',
-        //     ];
-        //     $message = [
-        //         'user.integer' => 'Date type has INT',
-        //         'limit.integer' => 'Date type has INT'
-        //     ];
-        //     dd($validResult = $request->validate($rules, $message));
-        // } catch (ValidationException $exception) {
-        //     dd($exception);
-        //     // 取得 laravel Validator 實例
-        //     $validatorInstance = $exception->validator;
-        //     // 取得錯誤資料
-        //     $errorMessageData = $validationInstance->getMessageBag();
-        //     // 取得驗證錯誤訊息
-        //     $errorMessages = $errorMessageData->getMessages();
-        //     // $errorMessage = $exception->validator->getMessageBag()->getMessages();
-        //     return response()->json($errorMessage);
-        //     dd($errorMessage);
-        // }
+        $rules = [
+            'page' => 'integer',
+            'limit' => 'integer',
+            'category' => 'string|max:50',
+            'content' => 'string|max:100',
+            'publishedAt' => 'string'
+        ];
+        $message = [
+            'page.integer' => 'Date type has INT',
+            'limit.integer' => 'Date type has INT',
+            'category.max' => 'String to long, max limit 50',
+            'content.max' => 'String to long, max limit 100',
+        ];
+        $v = Validator::make($request->all(), $rules, $message);
+        if($v->fails()) {
+            return response()->json($v->messages());
+        }
 
         $queryString = $request->only([ 'user', 'category', 'content', 'publishedAt', 'limit' ]);
         $posts = new Post();

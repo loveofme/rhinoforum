@@ -24,6 +24,7 @@ class PostFactory extends Factory
         $categories = ['Tech', 'Financial', 'Startup', 'Design'];
 
         return [
+            'user_id' => '1',
             'content' => $this->faker->realText(),
             'category' => $this->faker->randomElement($categories),
             'published_at' => now(),
